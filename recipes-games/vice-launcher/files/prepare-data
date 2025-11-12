@@ -1,0 +1,23 @@
+#! /bin/sh
+
+set -e
+
+THIS_DIR="$(dirname "$0")"
+TARGET="$1"
+if [ -z "$TARGET" ]; then
+    echo "Target directory must be specified"
+    exit 1
+fi
+
+mkdir -p "$TARGET/datasettes"
+mkdir -p "$TARGET/disks"
+mkdir -p "$TARGET/cartridges"
+mkdir -p "$TARGET/data"
+
+if [ ! -e "$TARGET/vice.ini" ]; then
+    cp "$THIS_DIR/vicerc" "$TARGET/vice.ini"
+fi
+
+if [ ! -e "$TARGET/hotkeys.vhk" ]; then
+    cp "$THIS_DIR/hotkeys.vhk" "$TARGET/hotkeys.vhk"
+fi

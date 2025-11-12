@@ -1,0 +1,86 @@
+[Version]
+ConfigVersion=3.9
+
+[C64SC]
+SaveResourcesOnSDLMenuExit=1
+
+# C64 NTSC
+MachineVideoStandard=2
+MachinePowerFrequency=60
+IECReset=1
+CIA1Model=0
+CIA2Model=0
+GlueLogic=0
+
+# Drives
+Drive8TrueEmulation=1
+Drive8Type=1541
+Drive8IdleMethod=2
+
+DriveSoundEmulation=1
+DriveSoundEmulationVolume=2000
+
+VirtualDevice9=1
+FSDevice9Dir="@datadir@/internal/data"
+Drive9TrueEmulation=0
+
+# Graphics
+# Render at 320x200 and have weston scale it up to the native display size
+# using EGL. This appears to be the most efficient option
+VICIIDoubleScan=0
+VICIIDoubleSize=0
+VICIIFullscreen=1
+VICIIFullscreenMode=1
+VICIIFullscreenCustomWidth=320
+
+# Disable vsync. It is not necessary to prevent tearing on wayland, and the
+# delay waiting for it can prevent the emulation from running at full speed
+VICIIVSync=0
+
+# Disable CRT filter
+VICIIFilter=0
+VICIIGLFilter=0
+VICIIModel=3
+
+# Sound
+Sound=1
+SoundVolume=60
+SoundOutput=1
+# Emulating sound on warp is a little slower, but vice behaves badly when
+# exiting warp if not
+SoundEmulateOnWarp=1
+
+SidModel=0
+SidFilters=1
+# Use FastSID
+SidEngine=0
+
+# Menu navigation with C64 Function keys
+# F1
+MenuKeyUp=282
+# F2
+MenuKeyDown=284
+# F3
+MenuKeyLeft=288
+# F4
+MenuKeyRight=286
+
+# Use positional keymap for use with C64USB
+KeymapIndex=1
+
+# Setup Joystick 1 to use keymap from C64USB
+KeySet1North=270
+KeySet1East=268
+KeySet1South=269
+KeySet1West=267
+KeySet1Fire=261
+KeySet2North=264
+KeySet2East=262
+KeySet2South=258
+KeySet2West=260
+KeySet2Fire=256
+JoyDevice1=2
+
+# Configure logging
+LogToFile=0
+LogToStdout=1

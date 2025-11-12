@@ -1,0 +1,17 @@
+!debug disable
+!clear
+
+cart-attach                     <Alt>F5
+cart-detach                     <Alt><Shift>F5
+cart-freeze                     <Alt>f
+drive-attach-8:0                <Alt>F1
+drive-detach-8:0                <Alt><Shift>F1
+monitor-open                    <Alt>h
+pause-toggle                    <Alt>p
+machine-power-cycle             <Alt>q
+show-statusbar-toggle           <Alt>s
+tape-attach-1                   <Alt>F3
+tape-detach-1                   <Alt><Shift>F3
+warp-mode-toggle                <Alt>w
+edit-copy                       <Alt>c
+edit-paste                      <Alt>v

@@ -1,0 +1,78 @@
+From 83f78df640674581378b060233b8dd6421ac8b46 Mon Sep 17 00:00:00 2001
+From: Joshua Watt <JPEWhacker@gmail.com>
+Date: Fri, 27 Dec 2024 14:39:58 -0700
+Subject: [PATCH] SDL: Add option to save settings when menu exits
+
+Adds an configuration option to save the settings immediately when the
+SDL menu exits. This is useful for embedded devices using vice (e.g.
+Raspberry Pi etc.), as they may not get a gracious system shutdown by
+the user that can trigger the settings save.
+
+Upstream-Status: Inappropriate
+---
+ vice/src/arch/sdl/ui.c     | 10 ++++++++++
+ vice/src/arch/sdl/uimenu.c |  6 ++++++
+ 2 files changed, 16 insertions(+)
+
+diff --git a/vice/src/arch/sdl/ui.c b/vice/src/arch/sdl/ui.c
+index 1c5c17cc88..2618fb5582 100644
+--- a/vice/src/arch/sdl/ui.c
++++ b/vice/src/arch/sdl/ui.c
+@@ -536,6 +536,7 @@ void ui_message(const char* format, ...)
+ /* uiapi.h */
+ 
+ static int save_resources_on_exit;
++static int save_resources_on_menu_exit;
+ static int confirm_on_exit;
+ static int start_minimized;
+ 
+@@ -552,6 +553,13 @@ static int set_save_resources_on_exit(int val, void *param)
+     return 0;
+ }
+ 
++static int set_save_resources_on_menu_exit(int val, void *param)
++{
++    save_resources_on_menu_exit = val ? 1 : 0;
++
++    return 0;
++}
++
+ static int set_confirm_on_exit(int val, void *param)
+ {
+     confirm_on_exit = val ? 1 : 0;
+@@ -620,6 +628,8 @@ static resource_int_t resources_int[] = {
+       &sdl_ui_menukeys[12], set_ui_menukey, (void *)MENU_ACTION_END },
+     { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
+       &save_resources_on_exit, set_save_resources_on_exit, NULL },
++    { "SaveResourcesOnSDLMenuExit", 0, RES_EVENT_NO, NULL,
++      &save_resources_on_menu_exit, set_save_resources_on_menu_exit, NULL },
+     { "ConfirmOnExit", 0, RES_EVENT_NO, NULL,
+       &confirm_on_exit, set_confirm_on_exit, NULL },
+ #ifdef ALLOW_NATIVE_MONITOR
+diff --git a/vice/src/arch/sdl/uimenu.c b/vice/src/arch/sdl/uimenu.c
+index 23149583c0..254d9e38c3 100644
+--- a/vice/src/arch/sdl/uimenu.c
++++ b/vice/src/arch/sdl/uimenu.c
+@@ -956,6 +956,7 @@ static void sdl_ui_trap(uint16_t addr, void *data)
+ {
+     unsigned int width;
+     unsigned int height;
++    int save_on_exit;
+     static char msg[0x40];
+ 
+     DBG(("sdl_ui_trap start"));
+@@ -981,6 +982,11 @@ static void sdl_ui_trap(uint16_t addr, void *data)
+         sdl_ui_menu_item_activate((ui_menu_entry_t *)data);
+     }
+ 
++    resources_get_int("SaveResourcesOnSDLMenuExit", &save_on_exit);
++    if (save_on_exit) {
++        resources_save(NULL);
++    }
++
+     if (machine_class == VICE_MACHINE_VSID) {
+         memset(sdl_active_canvas->draw_buffer_vsid->draw_buffer, 0, width * height);
+         sdl_ui_refresh();
+-- 
+2.47.1
+

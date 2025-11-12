@@ -1,0 +1,86 @@
+{
+    "version": "1.0",
+    "sources": {
+        "meta-fauxmodore-64": {
+            "contains_this_file": true,
+            "git-remote": {
+                "branch": "main",
+                "describe": "",
+                "remotes": {
+                    "origin": {
+                        "uri": "https://github.com/JPEWdev/meta-fauxmodore-64.git"
+                    }
+                },
+                "rev": "b70bd40e88a03a0b3f65b456dd9577804d67ff83"
+            },
+            "path": "meta-fauxmodore-64"
+        },
+        "meta-openembedded": {
+            "git-remote": {
+                "branch": "master",
+                "describe": "",
+                "remotes": {
+                    "origin": {
+                        "uri": "https://git.openembedded.org/meta-openembedded"
+                    }
+                },
+                "rev": "945ef788cf2fa31fb71492295653d4383eacfaf3"
+            },
+            "path": "meta-openembedded"
+        },
+        "meta-raspberrypi": {
+            "git-remote": {
+                "branch": "master",
+                "describe": "",
+                "remotes": {
+                    "origin": {
+                        "uri": "git://git.yoctoproject.org/meta-raspberrypi"
+                    }
+                },
+                "rev": "161be949b9f54484f30e3da26f8ef166ae0f2056"
+            },
+            "path": "meta-raspberrypi"
+        },
+        "openembedded-core": {
+            "git-remote": {
+                "branch": "master",
+                "describe": "uninative-5.0-152-ge556df28f4",
+                "remotes": {
+                    "origin": {
+                        "uri": "git://git.openembedded.org/openembedded-core"
+                    }
+                },
+                "rev": "e556df28f47e754b53e1f46c97dde2b19fd8fad1"
+            },
+            "path": "openembedded-core"
+        }
+    },
+    "bitbake-setup": {
+        "configurations": [
+            {
+                "name": "fauxmodore-64",
+                "description": "Build Fauxmodore-64",
+                "bb-layers": [
+                    "openembedded-core/meta",
+                    "meta-openembedded/meta-oe",
+                    "meta-openembedded/meta-python",
+                    "meta-openembedded/meta-networking",
+                    "meta-raspberrypi",
+                    "meta-fauxmodore-64"
+                ],
+                "oe-fragments-one-of": {
+                    "device": {
+                        "description": "Target device",
+                        "options" : [
+                            "fauxmodore-64/le-potato",
+                            "fauxmodore-64/rpi0-2",
+                            "fauxmodore-64/rpi3",
+                            "fauxmodore-64/rpi4",
+                            "fauxmodore-64/rpi5"
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

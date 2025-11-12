@@ -1,0 +1,2 @@
+include sdimage-raspberrypi.wks
+part /var/lib/vice/internal --fstype=vfat --use-uuid --label DATA --align 4096 --size 2G --fsoptions "dmask=000,fmask=111,sync"

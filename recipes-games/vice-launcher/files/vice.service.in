@@ -1,0 +1,19 @@
+[Unit]
+Description=Versatile Comodore Emulator
+BindsTo=weston.service
+After=weston.service
+RequiresMountsFor=@datadir@
+
+[Service]
+User=weston
+Group=weston
+WorkingDirectory=@datadir@
+
+ExecStartPre=@libexecdir@/vice/prepare-data @datadir@/internal
+
+Environment=SDL_RENDER_DRIVER=opengles2
+Environment=WAYLAND_DISPLAY=/run/wayland-0
+ExecStart=/usr/bin/x64sc -config @datadir@/internal/vice.ini -hotkeyfile @datadir@/internal/hotkeys.vhk
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,111 @@
+From b4aed05b35a2877a18638ec6a7b40c262b983e90 Mon Sep 17 00:00:00 2001
+From: Joshua Watt <JPEWhacker@gmail.com>
+Date: Fri, 20 Dec 2024 13:18:15 -0700
+Subject: [PATCH] Fix makefile
+
+Fix makefile
+
+Upstream-Status: Pending
+
+---
+ Makefile      | 32 +++++++++++++++-----------------
+ misc/Makefile | 10 +++++-----
+ 2 files changed, 20 insertions(+), 22 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 7691165..ff92492 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,12 +1,12 @@
+ # Unix gcc or DOS go32 cross-compiling gcc
+ #
+ VERS = 2.4.1
+-CC = gcc
+-LD = gcc
++CC ?= gcc
++LD ?= $(CC)
+ # for testing. not to be used; build failures in misc/.
+ #CFLAGS = -O2 -W -Wall -pedantic -ansi -g
+-CFLAGS = -O2 -g
+-LDFLAGS = -lc
++CFLAGS ?= -O2 -g
++LDFLAGS ?= -lc
+ 
+ # for DOS?
+ # CC = gcc-go32
+@@ -18,24 +18,22 @@ LDFLAGS = -lc
+ #CFLAGS =
+ #LD = ld
+ 
+-DESTDIR = /usr/local
++DESTDIR ?= ""
++PREFIX ?= /usr/local
+ 
+-BINDIR = $(DESTDIR)/bin
+-MANDIR = $(DESTDIR)/share/man/man1
+-DOCDIR = $(DESTDIR)/share/doc
++BINDIR = $(PREFIX)/bin
++MANDIR = $(PREFIX)/share/man/man1
++DOCDIR = $(PREFIX)/share/doc
+ 
+ MKDIR = mkdir -p
+ INSTALL = install
+ 
+ TESTS=ALL
+ 
+-all: killxa xa uncpk
+-
+-killxa:
+-	rm -f xa
++all: xa uncpk
+ 
+ xa:
+-	(cd src && LD=${LD} CC="${CC} ${CFLAGS}" ${MAKE})
++	(cd src && LD="${LD}" CC="${CC} ${CFLAGS}" ${MAKE})
+ 
+ #load:	
+ #	(cd loader && CC="${CC} ${CFLAGS}" ${MAKE})
+@@ -59,10 +57,10 @@ clean:
+ 	rm -f xa *.exe *.o65 *.s core
+ 
+ install: all
+-	$(MKDIR) $(BINDIR)
+-	$(MKDIR) $(MANDIR)
+-	$(INSTALL) xa reloc65 ldo65 file65 printcbm uncpk $(BINDIR)
+-	$(INSTALL) man/file65.1 man/ldo65.1 man/printcbm.1 man/reloc65.1 man/uncpk.1 man/xa.1 $(MANDIR)
++	$(MKDIR) $(DESTDIR)$(BINDIR)
++	$(MKDIR) $(DESTDIR)$(MANDIR)
++	$(INSTALL) -m 755 xa reloc65 ldo65 file65 printcbm uncpk $(DESTDIR)$(BINDIR)
++	$(INSTALL) -m 644 man/file65.1 man/ldo65.1 man/printcbm.1 man/reloc65.1 man/uncpk.1 man/xa.1 $(DESTDIR)$(MANDIR)
+ 	#$(MKDIR) $(DOCDIR)/xa65
+ 
+ dist: clean
+diff --git a/misc/Makefile b/misc/Makefile
+index 1025094..8df7262 100644
+--- a/misc/Makefile
++++ b/misc/Makefile
+@@ -10,19 +10,19 @@ LIBS = #-lncurses -ltermcap -lm
+ all: ../mkrom.sh ../uncpk ../printcbm ../file65 ../reloc65 ../ldo65
+ 
+ ../uncpk: uncpk.c
+-	${CC} ${CFLAGS} uncpk.c -o $(XCBMLIB)/uncpk
++	${CC} ${CFLAGS} $(LDFLAGS) uncpk.c -o $(XCBMLIB)/uncpk
+ 
+ ../printcbm: printcbm.c
+-	${CC} ${CFLAGS} printcbm.c -o $(XCBMLIB)/printcbm
++	${CC} ${CFLAGS} $(LDFLAGS) printcbm.c -o $(XCBMLIB)/printcbm
+ 
+ ../file65: file65.c
+-	${CC} ${CFLAGS} file65.c -o $(XCBMLIB)/file65
++	${CC} ${CFLAGS} $(LDFLAGS) file65.c -o $(XCBMLIB)/file65
+ 
+ ../ldo65: ldo65.c
+-	${CC} ${CFLAGS} ldo65.c -o $(XCBMLIB)/ldo65
++	${CC} ${CFLAGS} $(LDFLAGS) ldo65.c -o $(XCBMLIB)/ldo65
+ 
+ ../reloc65: reloc65.c
+-	${CC} ${CFLAGS} reloc65.c -o $(XCBMLIB)/reloc65
++	${CC} ${CFLAGS} $(LDFLAGS) reloc65.c -o $(XCBMLIB)/reloc65
+ 
+ ../mkrom.sh: mkrom.sh
+ 	cp mkrom.sh ../mkrom.sh

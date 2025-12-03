@@ -11,7 +11,7 @@
                         "uri": "https://github.com/JPEWdev/meta-fauxmodore-64.git"
                     }
                 },
-                "rev": "b70bd40e88a03a0b3f65b456dd9577804d67ff83"
+                "rev": "main"
             },
             "path": "meta-fauxmodore-64"
         },
@@ -53,6 +53,18 @@
                 "rev": "e556df28f47e754b53e1f46c97dde2b19fd8fad1"
             },
             "path": "openembedded-core"
+        },
+        "bitbake": {
+            "git-remote": {
+                "branch": "master",
+                "remotes": {
+                    "origin": {
+                        "uri": "git://git.openembedded.org/bitbake"
+                    }
+                },
+                "rev": "720df1a53452983c1c832f624490e255cf389204"
+            },
+            "path": "bitbake"
         }
     },
     "bitbake-setup": {

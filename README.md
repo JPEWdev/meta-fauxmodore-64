@@ -7,7 +7,7 @@ OpenEmbedded Layer for building a Commodore 64 emulator
 The images can be built using `bitbake-setup`:
 
 ```
-$ bitbake-setup init https://raw.githubusercontent.com/JPEWdev/meta-fauxmodore-64/refs/heads/main/fauxmodore-64.conf.json`
+$ bitbake-setup init https://raw.githubusercontent.com/JPEWdev/meta-fauxmodore-64/refs/heads/main/fauxmodore-64.conf.json
 ```
 
 After this, source the environment as prompted by `bitbake-setup`:
